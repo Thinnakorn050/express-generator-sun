@@ -15,9 +15,9 @@ app.use(logger('dev'));
 app.use(express.json());
 //==============connectDB=============//
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: '192.168.1.3',
     user: 'root',
-    password: '',
+    password: 'password',
     database: 'last_project'
 });
 connection.connect((err) => {
