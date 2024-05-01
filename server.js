@@ -191,18 +191,19 @@ app.get('/student_booking.html', requireLogin, (req, res) => {
 // });
 app.post('/api/bookings', (req, res) => {
     const { staff_id, roomname, room_status, slot_id, reason, status, approver, user_id } = req.body;
-  
+
     const sql = `INSERT INTO bookings (staff_id, roomname, room_status, slot_id, reason, status, approver, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values = [staff_id, roomname, room_status, slot_id, reason, status, approver, user_id];
-  
+
     connection.query(sql, values, (err, result) => {
-      if (err) {
-        res.status(500).send('Error inserting data into database');
-        throw err;
-      }
-      res.status(200).send('Booking data inserted successfully');
+        if (err) {
+            console.error('Error inserting data into database:', err); // Log the error for debugging
+            return res.status(500).send('Error inserting data into database');
+        }
+        res.status(200).send('Booking data inserted successfully');
     });
-  });
+});
+
 
 //======================student status====================//
 app.get('/student_status', (req, res) => {
