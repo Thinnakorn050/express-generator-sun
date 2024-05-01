@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Availability</title>
+    <style>
+        /* CSS styles for room availability */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .room {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .time-slot {
+            display: inline-block;
+            width: 80px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            /* เพิ่ม cursor: pointer เพื่อแสดงว่าเป็นปุ่มที่สามารถคลิกได้ */
+        }
+
+        .free {
+            background-color: #aaffaa;
+        }
+
+        .pending {
+            background-color: #ffff99;
+        }
+
+        .reserved {
+            background-color: #ffaaaa;
+        }
+
+        .disabled {
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Room Availability</h1>
+        <div id="roomList">
+            <!-- Room list will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script>
+        const roomData = [
+            { roomNumber: 101, availability: ["free", "pending", "reserved", "disabled"], timeSlots: ['08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00'] },
+            { roomNumber: 102, availability: ["free", "free", "reserved", "disabled"], timeSlots: ['08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00'] },
+            { roomNumber: 103, availability: ["free", "free", "free", "free"], timeSlots: ['08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00'] },
+            { roomNumber: 104, availability: ["pending", "free", "reserved", "free"], timeSlots: ['08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00'] }
+        ];
+
+
+            
+
+        // Function to create HTML for room availability
+        function createRoomHTML(room) {
+            const availabilityHTML = room.availability.map(status => `<div class="time-slot ${status}" onclick="updateRoomStatus(${room.roomNumber}, '${status}')">${status}</div>`).join('');
+            return `<div class="room">Room ${room.roomNumber}: ${availabilityHTML}</div>`;
+        }
+
+        // Function to display room availability
+        function displayRoomAvailability() {
+            const roomList = document.getElementById("roomList");
+            roomData.forEach(room => {
+                const roomHTML = createRoomHTML(room);
+                roomList.innerHTML += roomHTML;
+            });
+        }
+
+        // Call the function to display room availability when the page loads
+        window.onload = displayRoomAvailability;
+
+        // Function to handle room status update
+        function updateRoomStatus(roomNumber, newStatus) {
+            if (newStatus === 'free') { // เช็คว่าสถานะของห้องเป็น "free" หรือไม่
+                // เปลี่ยนไปยังหน้า student_booking.html
+                window.location.href = '/student_booking.html';
+            } else { // หากไม่ใช่ "free" ให้ทำการอัปเดตสถานะของห้อง
+                fetch(`/room_availability/${roomNumber}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Room status updated successfully');
+                        } else {
+                            console.error('Failed to update room status');
+                        }
+                    })
+                    .catch(error => console.error('Error updating room status: ', error));
+            }
+        }
+
+    </script>
+</body>
+
+</html>

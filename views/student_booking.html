@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Booking</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .room {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .room h1 {
+      margin: 0;
+      padding: 20px;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      width: calc(50% - 20px);
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .card p {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .disabled {
+      opacity: 0.5;
+    }
+
+    .pending {
+      background-color: #f2f2f2;
+    }
+
+    .column:nth-child(odd) {
+      margin-right: 20px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+
+      .column-left,
+      .column-right {
+        width: 100%;
+        float: none;
+      }
+
+      .card p {
+        width: 100%;
+        /* Full width on smaller screens */
+        float: none;
+        /* Center align on smaller screens */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="room">
+    <h1>Room Booking</h1>
+  </div>
+  <div class="container">
+    <div class="column">
+      <div id="room_A" class="card">
+        <h2>Room A</h2>
+        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+        <p class="free" data-slot-id="2">Status: Free</p>
+        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+        <p class="disabled" data-slot-id="4">Status: Disabled</p>
+        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+        <p class="pending" data-slot-id="6">Status: Pending</p>
+        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+        <p class="disabled" data-slot-id="8">Status: Disabled</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <h2>Room B</h2>
+        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+        <p class="free" data-slot-id="2">Status: Free</p>
+        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+        <p class="disabled" data-slot-id="4">Status: Disabled</p>
+        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+        <p class="pending" data-slot-id="6">Status: Pending</p>
+        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+        <p class="disabled" data-slot-id="8">Status: Disabled</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <h2>Room C</h2>
+        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+        <p class="free" data-slot-id="2">Status: Free</p>
+        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+        <p class="disabled" data-slot-id="4">Status: Disabled</p>
+        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+        <p class="pending" data-slot-id="6">Status: Pending</p>
+        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+        <p class="disabled" data-slot-id="8">Status: Disabled</p>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <h2>Room D</h2>
+        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+        <p class="free" data-slot-id="2">Status: Free</p>
+        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+        <p class="disabled" data-slot-id="4">Status: Disabled</p>
+        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+        <p class="pending" data-slot-id="6">Status: Pending</p>
+        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+        <p class="disabled" data-slot-id="8">Status: Disabled</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const freeButtons = document.querySelectorAll('.card p.free');
+
+      freeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          Swal.fire({
+            title: 'Book Room',
+            html: '<input id="reason" class="swal2-input" placeholder="Reason for booking">',
+            showCancelButton: true,
+            confirmButtonText: 'Book',
+            preConfirm: () => {
+              const reason = document.getElementById('reason').value;
+              if (!reason) {
+                Swal.showValidationMessage('Please enter a reason');
+              }
+              return { reason: reason };
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const roomName = button.parentNode.querySelector('h2').innerText;
+              const time = button.innerText;
+              const reason = result.value.reason;
+
+              // ส่งข้อมูลการจองผ่าน AJAX
+              const xhr = new XMLHttpRequest();
+              xhr.open('POST', '/api/bookings', true); // เปลี่ยน URL เป็น '/api/bookings'
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.onload = function () {
+                if (xhr.status === 200) {
+                  Swal.fire(
+                    'Room Booked!',
+                    `You booked ${roomName} at ${time} for the reason: ${reason}`,
+                    'success'
+                  );
+                } else {
+                  Swal.fire(
+                    'Error!',
+                    'Something went wrong while processing your request.',
+                    'error'
+                  );
+                }
+              };
+              xhr.send(JSON.stringify({ roomname: roomName, room_status: 'pending', reason: reason }));
+            }
+          });
+        });
+      });
+    });
+
+  </script>
+</body>
+
+</html>

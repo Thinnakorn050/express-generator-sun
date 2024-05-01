@@ -1,0 +1,99 @@
+<!-- student_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>student history</title>
+  <style>
+    /* CSS styles for the table */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>student history</h2>
+  <table id="bookingTable">
+    <thead>
+      <tr>
+        <th>Room Name</th>
+        <th>Room Status</th>
+        <th>Time Slot</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>approver</th>
+      </tr>
+    </thead>
+    <tbody id="bookingTableBody">
+      <!-- Data will be populated here dynamically -->
+    </tbody>
+  </table>
+
+  <!-- Include Axios library -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Fetch booking history data from API endpoint
+    axios.get('/api/booking-history')
+      .then(response => {
+        const bookings = response.data;
+        const bookingTableBody = document.getElementById('bookingTableBody');
+
+        // Loop through bookings and populate the table
+        bookings.forEach(booking => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${booking.roomname}</td>
+            <td>${booking.room_status}</td>
+            <td>${booking.time_slot}</td>
+            <td>${booking.reason}</td>
+            <td>${booking.status}</td>
+            <td>${booking.approver}</td>
+          `;
+          bookingTableBody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>staff status</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    /* เพิ่มสีสันให้กับปุ่มเม้าส์โฮเวอร์ */
+    tbody tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* เพิ่มเอฟเฟกต์เมื่อเม้าส์โฮเวอร์ที่เซลล์ */
+    tbody tr:hover td {
+      transition: background-color 0.3s;
+    }
+
+    /* ปรับสีของตัวหัวของตาราง */
+    th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    /* ให้ขอบของตารางเป็นแบบแวว */
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      border-radius: 8px;
+      /* เพิ่มเส้นขอบให้มีโค้ง */
+    }
+
+    /* ปรับสีของแถวแทรกของตาราง */
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* ปรับสีของเนื้อหาของตาราง */
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* ปรับขนาดและระยะของข้อความในเซลล์ */
+    td,
+    th {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    /* ขยายฟอนต์ของข้อความหัวข้อ */
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 24px;
+      color: #0a0c0e;
+      /* สีเหมือนกับพื้นหลังของหัวข้อ */
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .top-buttons a {
+      background-color: #007bff;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .top-buttons a:hover {
+      background-color: #0056b3;
+    }
+
+    script {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <h2>staff status</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Room Name</th>
+        <th>Room Status</th>
+        <th>Time Slot</th>
+        <th>Reason</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="bookingTableBody">
+      <!-- ตารางจะถูกสร้างขึ้นด้านนี้โดยใช้ JavaScript -->
+    </tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    axios.get('/api/bookings')
+      .then(response => {
+        const bookings = response.data;
+        const bookingTableBody = document.getElementById('bookingTableBody');
+
+        bookings.forEach(booking => {
+          const row = document.createElement('tr');
+          const status = booking.status === 'pending' ? 'Pending' : booking.status;
+          row.innerHTML = `
+            <td>${booking.roomname}</td>
+            <td>${booking.room_status}</td>
+            <td>${booking.time_slot}</td>
+            <td>${booking.reason}</td>
+            <td>${booking.status}</td>
+          `;
+          bookingTableBody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+      window.onload = function() {
+    const studentHistoryBtn = document.querySelector('.top-buttons a[href="student_history.html"]');
+    if (studentHistoryBtn) {
+      studentHistoryBtn.addEventListener('click', function(event) {
+        event.preventDefault(); // หยุดการเปลี่ยนหน้าเว็บเนื่องจากการคลิกลิงค์
+        window.location.href = 'student_history.html'; 
+      });
+    }
+  }
+  </script>
+</body>
+
+</html>

@@ -1,1 +1,1 @@
-# express-generator-sun
+# express-generator
