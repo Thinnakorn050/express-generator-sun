@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express();
@@ -15,7 +15,7 @@ app.use(logger('dev'));
 app.use(express.json());
 //==============connectDB=============//
 const connection = mysql.createConnection({
-    host: '192.168.1.3',
+    host: '127.0.0.1',
     user: 'root',
     password: 'password',
     database: 'last_project'
@@ -98,7 +98,8 @@ app.post('/register', async (req, res) => {
         });
         req.session.username = username;
         res.redirect('/login');
-    } catch {
+    } catch (e) {
+        console.error('Error during register:', e);
         res.status(500).send("มีข้อผิดพลาดในการลงทะเบียน");
     }
 });
