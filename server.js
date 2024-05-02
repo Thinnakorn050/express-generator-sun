@@ -1,4 +1,5 @@
 //============module=========//
+const cron = require('node-cron');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -33,6 +34,17 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+//=======scheduld=========//
+cron.schedule('50 23 * * *', () => {
+    connection.query("UPDATE time_slot SET status = 'available' WHERE status = 'pending'", (error, results, fields) => {
+        if (error) {
+            console.error("Error updating time slots:", error);
+        } else {
+            console.log("Time slots updated successfully.");
+        }
+    });
+}, { timezone: "Asia/Bangkok" });
 
 //============== view engine setup ==================//
 app.set('views', path.join(__dirname, 'views'));
