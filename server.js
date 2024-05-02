@@ -165,6 +165,20 @@ function requireLogin(req, res, next) {
         res.status(401).send('Unauthorized');
     }
 }
+//=================browserooms================//
+pp.get('/api/browserooms', (req, res) => {
+    // ส่งข้อมูล JSON กลับไปยังผู้ใช้
+    res.json({ message: 'รายการห้องพักทั้งหมด' });
+});
+
+app.get('/browserooms.html', (req, res) => {
+    // ส่งไฟล์ HTML กลับไปยังผู้ใช้
+    res.sendFile(path.join(__dirname, 'views', 'browserooms.html'));
+});
+//=================homepage================//
+app.get('/homepage.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
+});
 //=================browseroomLists================//
 app.get('/browseroomLists.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'browseroomLists.html'));
@@ -190,21 +204,21 @@ app.get('/student_booking.html', requireLogin, (req, res) => {
 // });
 app.post('/api/bookings', (req, res) => {
     const { staff_id, roomname, room_status, slot_id, reason, status, approver, user_id } = req.body;
-  
+
     const sql = `INSERT INTO bookings (staff_id, roomname, room_status, slot_id, reason, status, approver, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     const values = [staff_id, roomname, room_status, slot_id, reason, status, approver, user_id];
-  
+
     connection.query(sql, values, (err, result) => {
-      if (err) {
-        res.status(500).send('Error inserting data into database');
-        throw err;
-      }
-      res.status(200).send('Booking data inserted successfully');
+        if (err) {
+            res.status(500).send('Error inserting data into database');
+            throw err;
+        }
+        res.status(200).send('Booking data inserted successfully');
     });
-  });
+});
 
 //======================student status====================//
-app.get('/student_status', (req, res) => {
+app.get('/student_status.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'student_status.html'));
 });
 // API endpoint for getting bookings
@@ -224,7 +238,6 @@ app.get('/api/bookings', (req, res) => {
 app.put('/api/bookings/:id', (req, res) => {
     const { id } = req.params;
     const { status, approver } = req.body;
-
     connection.query('UPDATE bookings SET status = ?, approver = ? WHERE id = ?', [status, approver, id], (err, result) => {
         if (err) {
             console.error('Error:', err);
@@ -274,6 +287,9 @@ app.get('/api/booking-history', (req, res) => {
 //=================staff================//
 //===============staff API================//
 //===============staff route================//
+app.get('/staff_manage.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'staff_manage.html'));
+});
 app.get('/staff_dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'staff_dashboard.html'));
 });
@@ -296,6 +312,9 @@ app.get('/api/booking-details/:id', (req, res) => {
             }
         }
     });
+});
+app.get('/staff_manage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'staff_manage.html'));
 });
 
 app.get('/staff_history.html', (req, res) => {
@@ -360,17 +379,15 @@ app.put('/api/bookings/:id/confirm', (req, res) => {
     const { id } = req.params;
     const { status, approver } = req.body;
 
-    // Check if user is a lecture
-    if (req.user && req.user.role) {
-    } else {
-        console.log("Role is undefined or not available.");
-    }
     // Only update booking status when requested status is 'accepted' or 'rejected'
     if (status !== 'accepted' && status !== 'rejected') {
         return res.status(400).json({ error: 'Status can only be "accepted" or "rejected"' });
     }
 
-    connection.query('UPDATE bookings SET status = ?, approver = ? WHERE id = ?', [status, approver, id], (err, result) => {
+    // Define the new room status based on the booking status
+    const roomStatus = status === 'accepted' ? 'reserved' : 'available';
+
+    connection.query('UPDATE bookings SET status = ?, approver = ?, room_status = ? WHERE id = ?', [status, approver, roomStatus, id], (err, result) => {
         if (err) {
             console.error('Error:', err);
             res.status(500).json({ error: 'An error occurred while updating booking status.' });
@@ -378,20 +395,20 @@ app.put('/api/bookings/:id/confirm', (req, res) => {
             console.log('Booking status updated successfully');
             res.status(200).json({ message: 'Booking status updated successfully' });
 
-            // Insert into booking confirmation table
-            connection.query('INSERT INTO booking_confirmation (booking_id, approver, status) VALUES (?, ?, ?)', [id, approver, status], (err, result) => {
-                if (err) {
-                    console.error('Error:', err);
-                } else {
-                    console.log('Booking confirmation recorded successfully');
-
-                    // Update status in student_status.html and student_his.html
-                    updateStudentStatusAndHistory(id, status);
-                }
-            });
+            // If status is accepted, also insert into booking confirmation table
+            if (status === 'accepted') {
+                connection.query('INSERT INTO booking_confirmation (booking_id, approver, status) VALUES (?, ?, ?)', [id, approver, status], (err, result) => {
+                    if (err) {
+                        console.error('Error:', err);
+                    } else {
+                        console.log('Booking confirmation recorded successfully');
+                    }
+                });
+            }
         }
     });
 });
+
 
 //===============student_status.html and student_his.html================//
 function updateStudentStatusAndHistory(bookingId, status) {
@@ -407,6 +424,8 @@ function updateStudentStatusAndHistory(bookingId, status) {
         studentHistoryElement.textContent = status.charAt(0).toUpperCase() + status.slice(1);
     }
 }
+
+
 
 
 const PORT = process.env.PORT || 3000;

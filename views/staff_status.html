@@ -94,7 +94,7 @@
 </head>
 
 <body>
-  
+
   <h2>staff status</h2>
   <table>
     <thead>
@@ -113,21 +113,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-    axios.get('/api/bookings')
-      .then(response => {
-        const bookings = response.data;
+    fetch('/api/bookings')
+      .then(response => response.json())
+      .then(data => {
+        const bookings = data;
         const bookingTableBody = document.getElementById('bookingTableBody');
 
         bookings.forEach(booking => {
           const row = document.createElement('tr');
           const status = booking.status === 'pending' ? 'Pending' : booking.status;
           row.innerHTML = `
-            <td>${booking.roomname}</td>
-            <td>${booking.room_status}</td>
-            <td>${booking.time_slot}</td>
-            <td>${booking.reason}</td>
-            <td>${booking.status}</td>
-          `;
+        <td>${booking.roomname}</td>
+        <td>${booking.room_status}</td>
+        <td>${booking.time_slot}</td>
+        <td>${booking.reason}</td>
+        <td>${status}</td>
+      `;
           bookingTableBody.appendChild(row);
         });
       })
@@ -135,15 +136,16 @@
         console.error('Error:', error);
       });
 
-      window.onload = function() {
-    const studentHistoryBtn = document.querySelector('.top-buttons a[href="student_history.html"]');
-    if (studentHistoryBtn) {
-      studentHistoryBtn.addEventListener('click', function(event) {
-        event.preventDefault(); // หยุดการเปลี่ยนหน้าเว็บเนื่องจากการคลิกลิงค์
-        window.location.href = 'student_history.html'; 
-      });
+
+    window.onload = function () {
+      const studentHistoryBtn = document.querySelector('.top-buttons a[href="student_history.html"]');
+      if (studentHistoryBtn) {
+        studentHistoryBtn.addEventListener('click', function (event) {
+          event.preventDefault(); // หยุดการเปลี่ยนหน้าเว็บเนื่องจากการคลิกลิงค์
+          window.location.href = 'student_history.html';
+        });
+      }
     }
-  }
   </script>
 </body>
 

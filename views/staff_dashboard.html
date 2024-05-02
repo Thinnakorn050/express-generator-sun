@@ -150,10 +150,10 @@
             <h1><a href="staff_status.html">booking request</a></h1>
             <h1 class="Dashboard"><a href="#">Dashboard</a></h1>
             <h1><a href="staff_history.html">History</a></h1>
+            <h1><a href="staff_manage.html">manage</a></h1>
         </div>
         <div class="right-buttons">
-            <a class="logout-btn" href="#" onclick="showLogoutConfirmation()">Logout</a>
-
+            <a class="logout-btn" href="homepage.html" onclick="showLogoutConfirmation()">Logout</a>
         </div>
     </nav>
     <form method="POST">
@@ -177,9 +177,8 @@
         </div>
     </form>
 
+    <!-- SweetAlert2 Script -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
         const logoutBtn = document.querySelector('.logout-btn');
 
@@ -195,7 +194,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to logout page or perform logout action here
-                    window.location.href = "้homrpage.html"; // Change this to your logout endpoint
+                    window.location.href = "homepage.html"; // Change this to your logout endpoint
                 }
             });
         });
@@ -218,7 +217,6 @@
             });
         }
     </script>
-
 </body>
 
 </html>

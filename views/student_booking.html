@@ -90,124 +90,161 @@
         /* Center align on smaller screens */
       }
     }
+
+    .navbar {
+      /* background-color: #007bff; */
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    .navbar a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 18px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
 <body>
-  <div class="room">
-    <h1>Room Booking</h1>
-  </div>
-  <div class="container">
-    <div class="column">
-      <div id="room_A" class="card">
-        <h2>Room A</h2>
-        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
-        <p class="free" data-slot-id="2">Status: Free</p>
-        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
-        <p class="disabled" data-slot-id="4">Status: Disabled</p>
-        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
-        <p class="pending" data-slot-id="6">Status: Pending</p>
-        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
-        <p class="disabled" data-slot-id="8">Status: Disabled</p>
+  <div class="navbar">
+    <a href="student_his.html">Booking History</a>
+    <a href="student_status.html">Booking Status</a>
+    <button id="logoutBtn">Logout</button>
+    <div class="room">
+      <h1>Room Booking</h1>
+    </div>
+    <div class="container">
+      <div class="column">
+        <div id="room_A" class="card">
+          <h2>Room A</h2>
+          <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+          <p class="free" data-slot-id="2">Status: Free</p>
+          <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+          <p class="disabled" data-slot-id="4">Status: Disabled</p>
+          <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+          <p class="pending" data-slot-id="6">Status: Pending</p>
+          <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+          <p class="disabled" data-slot-id="8">Status: Disabled</p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2>Room B</h2>
+          <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+          <p class="free" data-slot-id="2">Status: Free</p>
+          <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+          <p class="disabled" data-slot-id="4">Status: Disabled</p>
+          <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+          <p class="pending" data-slot-id="6">Status: Pending</p>
+          <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+          <p class="disabled" data-slot-id="8">Status: Disabled</p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2>Room C</h2>
+          <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+          <p class="free" data-slot-id="2">Status: Free</p>
+          <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+          <p class="disabled" data-slot-id="4">Status: Disabled</p>
+          <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+          <p class="pending" data-slot-id="6">Status: Pending</p>
+          <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+          <p class="disabled" data-slot-id="8">Status: Disabled</p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2>Room D</h2>
+          <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+          <p class="free" data-slot-id="2">Status: Free</p>
+          <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+          <p class="disabled" data-slot-id="4">Status: Disabled</p>
+          <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+          <p class="pending" data-slot-id="6">Status: Pending</p>
+          <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+          <p class="disabled" data-slot-id="8">Status: Disabled</p>
+        </div>
       </div>
     </div>
 
-    <div class="column">
-      <div class="card">
-        <h2>Room B</h2>
-        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
-        <p class="free" data-slot-id="2">Status: Free</p>
-        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
-        <p class="disabled" data-slot-id="4">Status: Disabled</p>
-        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
-        <p class="pending" data-slot-id="6">Status: Pending</p>
-        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
-        <p class="disabled" data-slot-id="8">Status: Disabled</p>
-      </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <div class="column">
-      <div class="card">
-        <h2>Room C</h2>
-        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
-        <p class="free" data-slot-id="2">Status: Free</p>
-        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
-        <p class="disabled" data-slot-id="4">Status: Disabled</p>
-        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
-        <p class="pending" data-slot-id="6">Status: Pending</p>
-        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
-        <p class="disabled" data-slot-id="8">Status: Disabled</p>
-      </div>
-    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const freeButtons = document.querySelectorAll('.card p.free');
 
-    <div class="column">
-      <div class="card">
-        <h2>Room D</h2>
-        <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
-        <p class="free" data-slot-id="2">Status: Free</p>
-        <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
-        <p class="disabled" data-slot-id="4">Status: Disabled</p>
-        <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
-        <p class="pending" data-slot-id="6">Status: Pending</p>
-        <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
-        <p class="disabled" data-slot-id="8">Status: Disabled</p>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const freeButtons = document.querySelectorAll('.card p.free');
-
-      freeButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          Swal.fire({
-            title: 'Book Room',
-            html: '<input id="reason" class="swal2-input" placeholder="Reason for booking">',
-            showCancelButton: true,
-            confirmButtonText: 'Book',
-            preConfirm: () => {
-              const reason = document.getElementById('reason').value;
-              if (!reason) {
-                Swal.showValidationMessage('Please enter a reason');
-              }
-              return { reason: reason };
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              const roomName = button.parentNode.querySelector('h2').innerText;
-              const time = button.innerText;
-              const reason = result.value.reason;
-
-              // ส่งข้อมูลการจองผ่าน AJAX
-              const xhr = new XMLHttpRequest();
-              xhr.open('POST', '/api/bookings', true); // เปลี่ยน URL เป็น '/api/bookings'
-              xhr.setRequestHeader('Content-Type', 'application/json');
-              xhr.onload = function () {
-                if (xhr.status === 200) {
-                  Swal.fire(
-                    'Room Booked!',
-                    `You booked ${roomName} at ${time} for the reason: ${reason}`,
-                    'success'
-                  );
-                } else {
-                  Swal.fire(
-                    'Error!',
-                    'Something went wrong while processing your request.',
-                    'error'
-                  );
+        freeButtons.forEach(button => {
+          button.addEventListener('click', function () {
+            Swal.fire({
+              title: 'Book Room',
+              html: '<input id="reason" class="swal2-input" placeholder="Reason for booking">',
+              showCancelButton: true,
+              confirmButtonText: 'Book',
+              preConfirm: () => {
+                const reason = document.getElementById('reason').value;
+                if (!reason) {
+                  Swal.showValidationMessage('Please enter a reason');
                 }
-              };
-              xhr.send(JSON.stringify({ roomname: roomName, room_status: 'pending', reason: reason }));
-            }
+                return { reason: reason };
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                const roomName = button.parentNode.querySelector('h2').innerText;
+                const time = button.innerText;
+                const reason = result.value.reason;
+
+                // ส่งข้อมูลการจองผ่าน AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/bookings', true); // เปลี่ยน URL เป็น '/api/bookings'
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function () {
+                  if (xhr.status === 200) {
+                    Swal.fire(
+                      'Room Booked!',
+                      `You booked ${roomName} at ${time} for the reason: ${reason}`,
+                      'success'
+                    );
+                  } else {
+                    Swal.fire(
+                      'Error!',
+                      'Something went wrong while processing your request.',
+                      'error'
+                    );
+                  }
+                };
+                xhr.send(JSON.stringify({ roomname: roomName, room_status: 'pending', reason: reason }));
+              }
+            });
           });
         });
       });
-    });
 
-  </script>
+      document.getElementById('logoutBtn').addEventListener('click', function () {
+        Swal.fire({
+          title: 'Logout',
+          text: 'Are you sure you want to logout?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, logout'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Perform logout action here
+            window.location.href = '/logout'; // Redirect to logout endpoint
+          }
+        });
+      });
+    </script>
 </body>
 
 </html>

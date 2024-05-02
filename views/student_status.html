@@ -93,14 +93,14 @@
     function logout() {
       window.location.href = '/homepage.html';
     }
-    axios.get('/api/bookings')
-      .then(response => {
-        const bookings = response.data;
+    fetch('/api/bookings')
+      .then(response => response.json())
+      .then(data => {
+        const bookings = data;
         const bookingTableBody = document.getElementById('bookingTableBody');
 
         bookings.forEach(booking => {
           const row = document.createElement('tr');
-          const status = booking.status === 'pending' ? 'Pending' : booking.status;
           row.innerHTML = `
             <td>${booking.roomname}</td>
             <td>${booking.room_status}</td>

@@ -236,30 +236,32 @@
         });
 
         function loadBookingData() {
-            axios.get('/api/bookings')
+            fetch('/api/bookings')
                 .then(response => {
-                    const bookings = response.data;
+                    if (!response.ok) {
+                        throw new Error('Failed to load booking data');
+                    }
+                    return response.json();
+                })
+                .then(bookings => {
                     const bookingTableBody = document.getElementById('bookingTableBody');
-
                     bookingTableBody.innerHTML = '';
 
                     bookings.forEach((booking, index) => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${booking.roomname}</td>
-                            <td>${booking.time_slot}</td>
-                            <td>${booking.booker}</td>
-                            <td>${booking.reason}</td>
-                            <td>
-                                <!-- ปุ่ม Accept -->
-<button type="button" class="accept-btn" onclick="acceptBooking(${booking.id})">Accept</button>
-
-<!-- ปุ่ม Reject -->
-<button type="button" class="reject-btn" onclick="rejectBooking(${booking.id})">Reject</button>
-
-                            </td>
-                        `;
+                    <td>${index + 1}</td>
+                    <td>${booking.roomname}</td>
+                    <td>${booking.time_slot}</td>
+                    <td>${booking.booker}</td>
+                    <td>${booking.reason}</td>
+                    <td>
+                        <!-- ปุ่ม Accept -->
+                        <button type="button" class="accept-btn" onclick="acceptBooking(${booking.id})">Accept</button>
+                        <!-- ปุ่ม Reject -->
+                        <button type="button" class="reject-btn" onclick="rejectBooking(${booking.id})">Reject</button>
+                    </td>
+                `;
                         bookingTableBody.appendChild(row);
                     });
                 })
@@ -268,9 +270,39 @@
                 });
         }
 
-        function acceptBooking(bookingId) {
-            axios.put(`/api/bookings/${bookingId}/confirm`, { status: 'accepted', approver: 'lecture' })
+
+        function rejectBooking(bookingId) {
+            fetch(`/api/bookings/${bookingId}/confirm`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'rejected', approver: 'lecture' })
+            })
                 .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to reject booking');
+                    }
+                    console.log('Booking rejected successfully');
+                    loadBookingData();
+                })
+                .catch(error => {
+                    console.error('Error rejecting booking:', error);
+                });
+        }
+
+        function acceptBooking(bookingId) {
+            fetch(`/api/bookings/${bookingId}/confirm`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'accepted', approver: 'lecture' })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to accept booking');
+                    }
                     console.log('Booking accepted successfully');
                     loadBookingData();
                 })
@@ -279,16 +311,6 @@
                 });
         }
 
-        function rejectBooking(bookingId) {
-            axios.put(`/api/bookings/${bookingId}/confirm`, { status: 'rejected', approver: 'lecture' })
-                .then(response => {
-                    console.log('Booking rejected successfully');
-                    loadBookingData();
-                })
-                .catch(error => {
-                    console.error('Error rejecting booking:', error);
-                });
-        }
 
         // ส่วนของโค้ด fetch ที่คุณต้องการให้ทำงานเมื่อคลิกปุ่ม
         document.addEventListener('DOMContentLoaded', function () {

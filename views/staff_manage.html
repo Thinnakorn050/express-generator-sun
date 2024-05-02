@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .room {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .room h1 {
+            margin: 0;
+            padding: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            width: calc(50% - 20px);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .card p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .disabled {
+            opacity: 0.5;
+        }
+
+        .pending {
+            background-color: #f2f2f2;
+        }
+
+        .column:nth-child(odd) {
+            margin-right: 20px;
+        }
+
+        /* Style for buttons */
+        .card button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form style */
+        .swal2-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .swal2-select,
+        .swal2-input {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+
+            .column-left,
+            .column-right {
+                width: 100%;
+                float: none;
+            }
+
+            .card p {
+                width: 100%;
+                /* Full width on smaller screens */
+                float: none;
+                /* Center align on smaller screens */
+            }
+        }
+
+        #backBtn {
+            background-color: #007bff;
+            /* สีฟ้า */
+            color: white;
+        }
+
+        #backBtn:hover {
+            background-color: #0056b3;
+            /* เมื่อโฮเวอร์ */
+        }
+
+        #logoutBtn {
+            background-color: #d9534f;
+            /* สีแดง */
+            color: white;
+        }
+
+        #logoutBtn:hover {
+            background-color: #c9302c;
+            /* เมื่อโฮเวอร์ */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="room">
+        <h1>Room Booking</h1>
+        <button type="button" id="backBtn">Back</button>
+        <button type="button" id="logoutBtn">Logout</button>
+    </div>
+    <div class="container">
+        <div class="column">
+            <div id="room_A" class="card">
+                <h2>Room A</h2>
+                <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+                <p class="free" data-slot-id="2">Status: Free</p>
+                <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+                <p class="disabled" data-slot-id="4">Status: Disabled</p>
+                <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+                <p class="pending" data-slot-id="6">Status: Pending</p>
+                <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+                <p class="disabled" data-slot-id="8">Status: Disabled</p>
+                <button class="edit">Edit</button>
+                <button class="add">Add</button>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <h2>Room B</h2>
+                <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+                <p class="free" data-slot-id="2">Status: Free</p>
+                <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+                <p class="disabled" data-slot-id="4">Status: Disabled</p>
+                <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+                <p class="pending" data-slot-id="6">Status: Pending</p>
+                <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+                <p class="disabled" data-slot-id="8">Status: Disabled</p>
+                <button class="edit">Edit</button>
+                <button class="add">Add</button>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <h2>Room C</h2>
+                <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+                <p class="free" data-slot-id="2">Status: Free</p>
+                <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+                <p class="disabled" data-slot-id="4">Status: Disabled</p>
+                <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+                <p class="pending" data-slot-id="6">Status: Pending</p>
+                <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+                <p class="disabled" data-slot-id="8">Status: Disabled</p>
+                <button class="edit">Edit</button>
+                <button class="add">Add</button>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <h2>Room D</h2>
+                <p class="free" data-slot-id="1">Time: 8:00 - 10:00</p>
+                <p class="free" data-slot-id="2">Status: Free</p>
+                <p class="disabled" data-slot-id="3">Time: 10:00 - 12:00</p>
+                <p class="disabled" data-slot-id="4">Status: Disabled</p>
+                <p class="pending" data-slot-id="5">Time: 13:00 - 15:00</p>
+                <p class="pending" data-slot-id="6">Status: Pending</p>
+                <p class="disabled" data-slot-id="7">Time: 15:00 - 17:00</p>
+                <p class="disabled" data-slot-id="8">Status: Disabled</p>
+                <button class="edit">Edit</button>
+                <button class="add">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cardContainers = document.querySelectorAll('.card');
+
+            cardContainers.forEach(container => {
+                const roomName = container.querySelector('h2').innerText;
+
+                container.addEventListener('click', function (event) {
+                    const target = event.target;
+
+                    if (target.classList.contains('edit')) {
+                        Swal.fire({
+                            title: 'Edit Room',
+                            html: `
+                        <select id="status" class="swal2-select">
+                            <option value="free">Free</option>
+                            <option value="disabled">Disabled</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                        <input id="time" class="swal2-input" placeholder="Time (e.g., 10:00 - 12:00)">
+                    `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Save',
+                            preConfirm: () => {
+                                const status = document.getElementById('status').value;
+                                const time = document.getElementById('time').value;
+                                if (!status || !time) {
+                                    Swal.showValidationMessage('Please enter both status and time');
+                                }
+                                return { status: status, time: time };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const status = result.value.status;
+                                const time = result.value.time;
+                                const roomStatusElement = container.querySelector(`p[data-slot-id="${time}"]`);
+                                const roomStatusTextElement = roomStatusElement.nextElementSibling;
+                                roomStatusElement.setAttribute('class', status);
+                                roomStatusElement.setAttribute('data-slot-id', time);
+                                roomStatusTextElement.setAttribute('class', status);
+                                roomStatusTextElement.setAttribute('data-slot-id', time);
+                                roomStatusElement.innerText = `Time: ${time}`;
+                                roomStatusTextElement.innerText = `Status: ${status}`;
+                                Swal.fire(
+                                    'Room Updated!',
+                                    `Room ${roomName} updated successfully.`,
+                                    'success'
+                                );
+                            }
+                        });
+                    }
+
+                    if (target.classList.contains('add')) {
+                        Swal.fire({
+                            title: 'Add Room',
+                            html: `
+                        <select id="status" class="swal2-select">
+                            <option value="free">Free</option>
+                            <option value="disabled">Disabled</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                        <input id="time" class="swal2-input" placeholder="Time (e.g., 10:00 - 12:00)">
+                    `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Add',
+                            preConfirm: () => {
+                                const status = document.getElementById('status').value;
+                                const time = document.getElementById('time').value;
+                                if (!status || !time) {
+                                    Swal.showValidationMessage('Please enter both status and time');
+                                }
+                                return { status: status, time: time };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const status = result.value.status;
+                                const time = result.value.time;
+                                const newRoomHtml = `
+                            <p class="${status}" data-slot-id="${time}">Time: ${time}</p>
+                            <p class="${status}" data-slot-id="${time}">Status: ${status}</p>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        `;
+                                const newRoomElement = document.createElement('div');
+                                newRoomElement.classList.add('card');
+                                newRoomElement.innerHTML = newRoomHtml;
+                                container.parentNode.appendChild(newRoomElement);
+                                Swal.fire(
+                                    'Room Added!',
+                                    `New room added successfully.`,
+                                    'success'
+                                );
+                            }
+                        });
+                    }
+
+                    if (target.classList.contains('delete')) {
+                        // JavaScript code for delete confirmation
+                    }
+
+                    if (target.classList.contains('show')) {
+                        // JavaScript code for showing room details
+                    }
+                });
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let roomIndex = 3; // เริ่มต้นที่ C
+
+            const cardContainers = document.querySelectorAll('.card');
+
+            cardContainers.forEach(container => {
+                const roomName = container.querySelector('h2').innerText;
+
+                container.addEventListener('click', function (event) {
+                    const target = event.target;
+
+                    if (target.classList.contains('edit')) {
+                        // Swal.fire edit dialog
+                        // JavaScript code...
+                    }
+
+                    if (target.classList.contains('add')) {
+                        Swal.fire({
+                            title: 'Add Room',
+                            html: `
+                        <select id="status" class="swal2-select">
+                            <option value="free">Free</option>
+                            <option value="disabled">Disabled</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                        <input id="time" class="swal2-input" placeholder="Time (e.g., 10:00 - 12:00)">
+                    `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Add',
+                            preConfirm: () => {
+                                const status = document.getElementById('status').value;
+                                const time = document.getElementById('time').value;
+                                if (!status || !time) {
+                                    Swal.showValidationMessage('Please enter both status and time');
+                                }
+                                return { status: status, time: time };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const status = result.value.status;
+                                const time = result.value.time;
+                                const newRoomHtml = `
+                            <p class="${status}" data-slot-id="${time}">Time: ${time}</p>
+                            <p class="${status}" data-slot-id="${time}">Status: ${status}</p>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        `;
+                                const newRoomElement = document.createElement('div');
+                                newRoomElement.classList.add('card');
+                                newRoomElement.innerHTML = newRoomHtml;
+                                container.parentNode.appendChild(newRoomElement);
+                                Swal.fire(
+                                    'Room Added!',
+                                    `Room ${String.fromCharCode(65 + roomIndex)} added successfully.`,
+                                    'success'
+                                );
+                                roomIndex++; // เพิ่ม index สำหรับห้องถัดไป
+                            }
+                        });
+                    }
+
+                    if (target.classList.contains('delete')) {
+                        // JavaScript code for delete confirmation
+                    }
+
+                    if (target.classList.contains('show')) {
+                        // JavaScript code for showing room details
+                    }
+                });
+            });
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function () {
+            window.location.href = 'staff_dashboard.html'; // Redirect to staff_dashboard.html
+        });
+
+        // Add event listener for logout button
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, logout'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to logout endpoint or perform logout action
+                    window.location.href = '/logout';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
