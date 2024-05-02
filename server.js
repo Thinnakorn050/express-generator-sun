@@ -37,7 +37,6 @@ app.use(session({
 //============== view engine setup ==================//
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'jade');
 
 // Middleware สำหรับการแปลงข้อมูลที่ส่งมาเป็น JSON
 app.use(express.json());
@@ -177,11 +176,8 @@ function requireLogin(req, res, next) {
         res.status(401).send('Unauthorized');
     }
 }
-//=================browserooms================//
-app.get('/browseroomLists', (req, res) => {
-    res.redirect('/browseroomLists.html');
-});
-app.get('/browseroomLists', (req, res) => {
+//=================browseroomLists================//
+app.get('/browseroomLists.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'browseroomLists.html'));
 });
 // API endpoint for fetching time slots
@@ -200,13 +196,10 @@ app.get('/api/browseroomLists', (req, res) => {
 
 
 //=================homepage================//
-app.get('/homepage.html', (req, res) => {
+app.get('/homepage', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
 });
-//=================browseroomLists================//
-app.get('/browseroomLists.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'browseroomLists.html'));
-});
+
 //=================student================//
 //===============student API================//
 //===============student route================//
@@ -345,20 +338,20 @@ app.get('/staff_history.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'staff_history.html'));
 });
 
-app.get('/staff_addingroom.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'staff_addingroom.html'));
-});
+// app.get('/staff_addingroom.html', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'views', 'staff_addingroom.html'));
+// });
 
-app.get('/staff_edittionroom.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'staff_edittionroom.html'));
-});
+// app.get('/staff_edittionroom.html', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'views', 'staff_edittionroom.html'));
+// });
 
 //=================lecture================//
 //===============lecture API================//
 //===============lecture route================//
-app.get('/lecture_booking_status.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lecture_booking_status.html'));
-});
+// app.get('/lecture_booking_status', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'views', 'lecture_booking_status.html'));
+// });
 
 app.get('/lecture_dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lecture_dashboard.html'));

@@ -10,7 +10,6 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #e6f0ff;
-            /* เปลี่ยนสีพื้นหลังเป็นน้ำเงินอ่อน */
             margin: 0;
             padding: 0;
             display: flex;
@@ -32,7 +31,8 @@
         h2 {
             margin-bottom: 30px;
             color: #004080;
-            /* เปลี่ยนสีของข้อความเป็นน้ำเงินเข้ม */
+            font-size: 28px;
+            /* เพิ่มขนาดตัวอักษรของหัวเรื่อง */
         }
 
         label {
@@ -43,9 +43,10 @@
             text-align: left;
         }
 
-        input[type="email"],
+        input[type="username"],
         input[type="password"] {
-            width: 100%;
+            width: calc(100% - 24px);
+            /* เพิ่มการปรับขนาดเพื่อให้ฟอร์มดูดีขึ้น */
             padding: 12px;
             margin-bottom: 20px;
             border: 1px solid #cccccc;
@@ -55,7 +56,7 @@
             font-size: 16px;
         }
 
-        input[type="email"]:focus,
+        input[type="username"]:focus,
         input[type="password"]:focus {
             border-color: #007bff;
         }
@@ -76,7 +77,23 @@
 
         button[type="submit"]:hover {
             background-color: #0056b3;
+            /* เพิ่มเงื่อนไข hover เพื่อเปลี่ยนสีเมื่อ hover ทำให้ดูมีสีสัน */
         }
+
+        button[type=""]{
+            width: 80%;
+            padding: 14px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
 
         .signup-link {
             margin-top: 20px;
@@ -95,8 +112,10 @@
 </head>
 
 <body>
-    <h2>Login</h2>
     <form action="/login" method="post">
+        <div class="hero">
+            <h2>Login</h2>
+        </div>
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -106,8 +125,9 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit">Login</button>
+        <a href="register" class="signup-link" style="color: #007bff;">Don't have an account? Sign up</a>
     </form>
-    <a href="register.html" class="signup-link" style="color: #007bff;">Don't have an account? Sign up</a>
+
 
 </body>
 
