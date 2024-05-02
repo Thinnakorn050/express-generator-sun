@@ -196,7 +196,7 @@ app.get('/api/browseroomLists', (req, res) => {
 
 
 //=================homepage================//
-app.get('/homepage', (req, res) => {
+app.get('/homepage.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
 });
 
@@ -206,19 +206,6 @@ app.get('/homepage', (req, res) => {
 app.get('/student_booking.html', requireLogin, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'student_booking.html'));
 });
-// app.post('/api/bookings', (req, res) => {
-//     const { roomname, room_status, time_slot, reason, status } = req.body;
-//     const sql = 'INSERT INTO bookings (roomname, room_status, time_slot, reason, status) VALUES (?, ?, ?, ?, ?)';
-//     connection.query(sql, [roomname, room_status, time_slot, reason, status], (error, results) => {
-//         if (error) {
-//             console.error('Error executing SQL:', error);
-//             res.status(500).json({ error: 'Database error' });
-//             return;
-//         }
-
-//         res.status(200).json({ message: 'Booking successful' });
-//     });
-// });
 app.post('/api/bookings', (req, res) => {
     const { staff_id, roomname, room_status, slot_id, reason, status, approver, user_id } = req.body;
 
