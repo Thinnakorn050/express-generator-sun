@@ -53,6 +53,18 @@ app.get('/', function (req, res) {
         res.redirect('/login');
     }
 });
+
+// Middleware เพื่อตรวจสอบบทบาทของผู้ใช้
+function checkUserRole(req, res, next) {
+    const allowedRoles = ['student', 'staff', 'lecture'];
+    if (req.session.role && allowedRoles.includes(req.session.role)) {
+        // ถ้าผู้ใช้มีบทบาทที่อนุญาตให้เข้าถึงหน้านี้
+        next();
+    } else {
+        res.status(403).send('Permission denied');
+    }
+}
+
 //============register API all users============//
 app.post('/register', async (req, res) => {
     try {
@@ -166,15 +178,27 @@ function requireLogin(req, res, next) {
     }
 }
 //=================browserooms================//
-pp.get('/api/browserooms', (req, res) => {
-    // ส่งข้อมูล JSON กลับไปยังผู้ใช้
-    res.json({ message: 'รายการห้องพักทั้งหมด' });
+app.get('/browseroomLists', (req, res) => {
+    res.redirect('/browseroomLists.html');
+});
+app.get('/browseroomLists', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'browseroomLists.html'));
+});
+// API endpoint for fetching time slots
+app.get('/api/browseroomLists', (req, res) => {
+    connection.query('SELECT * FROM time_slot', (err, results) => {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).json({ error: 'An error occurred while fetching room lists.' });
+        } else {
+            res.status(200).json(results);
+        }
+    });
 });
 
-app.get('/browserooms.html', (req, res) => {
-    // ส่งไฟล์ HTML กลับไปยังผู้ใช้
-    res.sendFile(path.join(__dirname, 'views', 'browserooms.html'));
-});
+
+
+
 //=================homepage================//
 app.get('/homepage.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'homepage.html'));

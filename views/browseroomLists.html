@@ -4,18 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browseroom Lists</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <h1>รายการห้องพัก</h1>
-    <ul id="roomList"></ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Time Start</th>
+                <th>Time End</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="roomList"></tbody>
+    </table>
 
     <script>
         window.onload = () => {
-            fetch('/api/browserooms')
+            fetch('/api/browseroomLists')
                 .then(response => response.json())
                 .then(data => {
                     const roomList = document.getElementById('roomList');
-                    roomList.innerHTML = data.message; // แก้ไขเพื่อให้แสดงข้อมูลห้องพักจริง ๆ
+                    data.forEach(room => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${room.room_id}</td>
+                            <td>${room.time_start}</td>
+                            <td>${room.time_end}</td>
+                            <td>${room.status}</td>
+                        `;
+                        tr.addEventListener('click', () => {
+                            window.location.href = `/student_booking.html?room_id=${room.room_id}&time_start=${room.time_start}&time_end=${room.time_end}&status=${room.status}`;
+                        });
+                        roomList.appendChild(tr);
+                    });
                 })
                 .catch(error => console.error('เกิดข้อผิดพลาด:', error));
         };
