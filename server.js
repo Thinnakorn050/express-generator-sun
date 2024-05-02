@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 //============route of student============//
-app.get('/register', (req, res) => {
+app.get('/register.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
 app.get('/', function (req, res) {

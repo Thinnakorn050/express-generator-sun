@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browseroom Lists</title>
     <style>
+        body h1 {
+            text-align: center;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -22,7 +25,7 @@
     </style>
 </head>
 <body>
-    <h1>รายการห้องพัก</h1>
+    <h1>browseroomLists</h1>
     <table>
         <thead>
             <tr>
@@ -50,7 +53,7 @@
                             <td>${room.status}</td>
                         `;
                         tr.addEventListener('click', () => {
-                            window.location.href = `/student_booking.html?room_id=${room.room_id}&time_start=${room.time_start}&time_end=${room.time_end}&status=${room.status}`;
+                            // window.location.href = `/student_booking.html?room_id=${room.room_id}&time_start=${room.time_start}&time_end=${room.time_end}&status=${room.status}`;
                         });
                         roomList.appendChild(tr);
                     });
